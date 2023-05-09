@@ -1,0 +1,88 @@
+from timeit import default_timer as timer
+sum_iterations = 0
+duration = 0
+
+
+def default_list():
+    global duration
+    start = timer()
+    default = ['False'] * 100
+    end = timer()
+    duration += end - start
+    return default
+
+
+def door_nums():
+    global duration
+    global sum_iterations
+    start = timer()
+    numbers = []
+    counter = 0
+    while counter != 100:
+        sum_iterations += 1
+        counter += 1
+        numbers.append(counter)
+    else:
+        end = timer()
+        duration += end - start
+    return numbers
+
+
+def door_nums_per_pass():
+    global duration
+    global sum_iterations
+    start = timer()
+    door_nums_passes = []
+    amount_doors = door_nums()
+    for index in range(len(amount_doors)):
+        sum_iterations += 1
+        multiplicand = amount_doors[index]
+        multiplier = 1
+        product = multiplicand * multiplier
+        while product <= 100:
+            sum_iterations += 1
+            door_nums_passes.append(product)
+            multiplier += 1
+            product = multiplicand * multiplier
+    end = timer()
+    duration += end - start
+    return door_nums_passes
+
+
+def change_state():
+    global duration
+    global sum_iterations
+    start = timer()
+    given_list = default_list()
+    passes_door_nums = door_nums_per_pass()
+    for index in range(len(passes_door_nums)):
+        sum_iterations += 1
+        door_visited = passes_door_nums[index]
+        index_door = door_visited - 1
+        if given_list[index_door] == 'True':
+            given_list[index_door] = 'False'
+        else:
+            given_list[index_door] = 'True'
+    end = timer()
+    duration += end - start
+    return given_list
+
+
+def open_doors_num():
+    global duration
+    global sum_iterations
+    start = timer()
+    open_doors = []
+    updated_list = change_state()
+    for index in range(len(updated_list)):
+        sum_iterations += 1
+        if updated_list[index] == 'True':
+            open_doors.append(index)
+    end = timer()
+    duration += end - start
+    return open_doors
+
+
+print(open_doors_num())
+print(duration)
+print(sum_iterations)
