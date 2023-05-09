@@ -1,0 +1,52 @@
+class Stack:
+
+    def __init__(self, stack):
+        self.stack = stack
+
+    def check_empty(self):
+        if len(self.stack) == 0:
+            return True
+        else:
+            return False
+        
+    def get_size(self):
+        return len(self.stack)
+
+    def check_integers(self):
+        for item in self.stack:
+            return type(item)
+
+    def add_item(self, item):
+        init_len = len(self.stack)
+        self.stack.append(item)
+        new_len = len(self.stack)
+        return new_len - init_len
+
+    def get_last_item(self):
+        return self.stack[-1]
+    
+    def pop_item(self):
+        return self.stack.pop()
+
+    def __str__(self):
+        return f"{self.stack}"
+        
+        
+import unittest
+from stack_class import Stack
+
+class TestStack(unittest.TestCase):
+    def setUp(self):
+        self.newStack = Stack([1, 2, 't'])
+
+    def test_stack_contains_integers(self):
+        self.assertEqual(self.newStack.check_integers(), str(), 'Stack contains a string')
+
+    def test_incrementation_stack(self):
+        self.assertEqual(self.newStack.add_item(1), 1, "Stack hadn't increased by 1")
+
+    def test_popped_and_last_item(self):
+        self.assertEqual(self.newStack.pop_item(), self.newStack.get_last_item(), "Stack's popped and last item aren't the same")
+
+if __name__ == '__main__':
+    unittest.main()
