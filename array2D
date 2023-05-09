@@ -1,0 +1,69 @@
+from timeit import default_timer as timer
+
+sum_iterations = 0
+time = 0
+open_doors = []
+
+def list_states():
+    global time
+    start = timer()
+    arr_doors_state = [['closed', num] for num in range(1, 101)] #  Initialise the 2D array with 'closed' state and position 0
+    end = timer() 
+    time += end - start
+    return arr_doors_state
+    
+def list_door_nums_visit():
+    global time
+    global sum_iterations
+    num = 0
+    sums = []
+    arr_sums = []
+    multiplier = 1
+    multiplicand = 0
+    result = 0
+    start = timer()
+    while num < 100:
+        sum_iterations += 1
+        while result <= 100:
+            sum_iterations += 1
+            multiplicand += 1
+            result = multiplicand * multiplier
+            if result <= 100:
+                sums.append(result) 
+        else:
+            arr_sums.append(sums)
+            sums = []
+            multiplier += 1
+            multiplicand = 0
+            result = 0
+            num += 1
+    else:
+        end = timer()
+        time += end - start
+        return arr_sums
+
+def change_states():
+    global sum_iterations
+    global time
+    global open_doors
+    states = list_states()
+    door_nums_visit = list_door_nums_visit()
+    start = timer()
+    for index in range(len(door_nums_visit)):
+        sum_iterations += 1
+        for num in door_nums_visit[index]:
+            sum_iterations += 1
+            if states[num - 1][0] == 'closed':
+                states[num - 1][0] = 'open'
+            else:
+                states[num - 1][0] = 'closed'
+    for index in range(len(states)):
+        sum_iterations += 1
+        if states[index][0] == 'open':
+            open_doors.append(states[index][1])
+    end = timer()
+    time += end - start
+    return open_doors, time, sum_iterations
+    
+states = change_states()
+print(states)
